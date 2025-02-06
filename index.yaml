@@ -9,6 +9,6 @@ entries:
     name: statping-helm
     type: application
     urls:
-    - https://antoniodiaz02.github.io/Stapting-Helm/statping-helm-0.1.0.tgz
+    - https://antoniodiaz02.github.io/Statping-Helm/statping-helm-0.1.0.tgz
     version: 0.1.0
 generated: "2025-02-06T20:00:11.0757656+01:00"
