@@ -17,17 +17,12 @@ Statping-Helm is a Helm chart that simplifies the deployment of **Statping**, a 
 - Kubernetes cluster up and running
 - Git installed
 
-### Clone the Repository
+### Install helm
 ```sh
 helm repo add statping-helm https://antoniodiaz02.github.io/Statping-Helm
 helm repo update
 helm install statping statping-helm/statping-helm
 cd statping-helm
-```
-
-### Install the Chart
-```sh
-helm install statping --values values.yaml ./
 ```
 
 You can customize the installation by modifying values.yaml or passing parameters directly:
