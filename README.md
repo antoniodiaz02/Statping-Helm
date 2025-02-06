@@ -27,7 +27,7 @@ cd statping-helm
 
 You can customize the installation by modifying values.yaml or passing parameters directly:
 ```sh
-helm install statping --values values.yaml ./ \
+helm install statping  ./ \
   --set env.DB_CONN=mysql \
   --set image.tag=v0.90.78
 ```
