@@ -19,7 +19,9 @@ Statping-Helm is a Helm chart that simplifies the deployment of **Statping**, a 
 
 ### Clone the Repository
 ```sh
-git clone https://github.com/your-repo-name/statping-helm.git
+helm repo add statping-helm https://antoniodiaz02.github.io/Statping-Helm
+helm repo update
+helm install statping statping-helm/statping-helm
 cd statping-helm
 ```
 
