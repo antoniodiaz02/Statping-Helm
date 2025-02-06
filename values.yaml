@@ -1,0 +1,145 @@
+# Default values for statping-helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# The database connection setting.
+# Change `DB_CONN` to `mysql` or `postgres` if needed.
+# Currently, it is set to `sqlite` for lightweight usage.
+env:
+  DB_CONN: sqlite
+
+replicaCount: 1
+
+# database:
+#   connection: sqlite
+#   host: localhost
+#   port: 5432
+#   username: root
+#   password: password123
+#   database: statping_db
+#   sslMode: "ssl_mode=disable"
+#   readOnly: false
+
+image:
+  repository: adamboutcher/statping-ng
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "v0.90.78"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: statping-test.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8080  
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8080   
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 2
+  failureThreshold: 3
+  successThreshold: 1
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+# Persistent storage configuration for the database.  
+# This ensures that SQLite data is stored persistently across pod restarts.  
+# If switching to MySQL or PostgreSQL, update the volume settings accordingly.  
+
+volumes:
+  - name: sqlite-storage
+    persistentVolumeClaim:
+      claimName: sqlite-pvc
+
+# Mounting the persistent volume to the application directory.  
+# This allows SQLite to retain its data even if the container restarts.  
+volumeMounts:
+  - name: sqlite-storage
+    mountPath: /app
+
+# PersistentVolumeClaim (PVC) details.  
+# Adjust `accessMode` and `size` as needed for different database backends.  
+persistence:
+  name: sqlite-pvc
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  reclaimPolicy: Retain 
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

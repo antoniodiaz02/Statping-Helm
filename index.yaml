@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  statping-helm:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2025-02-06T20:00:11.0757656+01:00"
+    description: A Helm chart for Kubernetes
+    digest: d583a8968fc135340dd1d1f1093b1763b310a7d11b6241e863339938e1f10b0d
+    name: statping-helm
+    type: application
+    urls:
+    - https://antoniodiaz02.github.io/Stapting-Helm/statping-helm-0.1.0.tgz
+    version: 0.1.0
+generated: "2025-02-06T20:00:11.0757656+01:00"
